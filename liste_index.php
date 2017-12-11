@@ -2,11 +2,11 @@
   Films
   <?php
     $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-    $q1 = $bdd->query('SELECT title FROM movie ORDER BY title');
+    $q1 = $bdd->query('SELECT title ,id FROM movie ORDER BY title');
 
     while ($films = $q1->fetch(PDO::FETCH_ASSOC))
     {
-      echo '<li>'.$films['title'].'</li>';
+      echo '<li><a href="movie.php?id='.$films['id'].'">'.$films['title'].'</a></li>';
     };
   ?>
 </ul>
