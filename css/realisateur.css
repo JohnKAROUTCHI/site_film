@@ -1,0 +1,26 @@
+body{
+  font-family: arial;
+  margin: 0;
+}
+header,footer{
+  color: white;
+  background-color: #0F1166;
+  padding: 1rem;
+}
+ul{
+  margin: 0;
+}
+.lien_header{
+  color: white;
+}
+.lien_header:visited{
+  color: #F1E212;
+}
+.liste_header{
+  display: inline-block;
+  padding-right: 2rem;
+}
+footer{
+  text-align: center;
+  margin-top: 1rem;
+}
