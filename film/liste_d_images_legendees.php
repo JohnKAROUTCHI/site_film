@@ -1,8 +1,10 @@
 <section id="img_film">
   <h2>Photos</h2>
   <?php
+    $id = $_GET['id'];
+
     $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-    $q = $bdd->query('SELECT path, legend FROM picture WHERE id<=5');
+    $q = $bdd->query("SELECT path, legend FROM picture p INNER JOIN moviehaspicture mp WHERE p.id=mp.idPicture AND role=2 AND idMovie=$id");
     while ($picture = $q->fetch(PDO::FETCH_ASSOC))
     {
       echo '<img src="'.$picture['path'].'"/><br>'.$picture['legend'].'<br>';

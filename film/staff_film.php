@@ -1,8 +1,28 @@
+<?php
+  ini_set('error_reporting', -1);
+  ini_set('display_errors', 'on'); // 'on' en développement, 'off' en production
+  ini_set('log_errors', 'on');
+  ini_set('errors_log', '/path/to/file.log');
+ ?>
 <section id="staff">
   <h2>Réalisateur</h2>
   <?php
+  $id = $_GET['id'];
+
   $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-  $q = $bdd->query('SELECT path, legend FROM picture WHERE id=7');
+  $query = "
+  SELECT path, legend
+  FROM movie m
+    INNER JOIN moviehasperson mp ON m.id=mp.idMovie AND role=1
+    INNER JOIN personhaspicture pp ON pp.idPerson=mp.idPerson
+    INNER JOIN picture p ON  pp.idPicture=p.id
+  WHERE idMovie=$id";
+  $q = $bdd->query($query);
+  if (!$q) {
+    print_r($bdd->errorInfo());
+    echo $query;
+    die;
+  }
   $picture = $q->fetch(PDO::FETCH_ASSOC);
 
   echo '<img src="'.$picture['path'].'"/><br>'.$picture['legend'].'<br>';
@@ -14,8 +34,22 @@
   </figure> -->
   <h2>Distribution</h2>
   <?php
+  $id = $_GET['id'];
+
   $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-  $q = $bdd->query('SELECT path, legend FROM picture WHERE id>=6 AND id!=7');
+  $query = "
+  SELECT path, legend
+  FROM movie m
+    INNER JOIN moviehasperson mp ON m.id=mp.idMovie AND role=2
+    INNER JOIN personhaspicture pp ON pp.idPerson=mp.idPerson
+    INNER JOIN picture p ON  pp.idPicture=p.id
+  WHERE idMovie=$id";
+  $q = $bdd->query($query);
+  if (!$q) {
+    print_r($bdd->errorInfo());
+    echo $query;
+    die;
+  }
   while ($picture = $q->fetch(PDO::FETCH_ASSOC))
   {
     echo '<img src="'.$picture['path'].'"/><br>'.$picture['legend'].'<br>';

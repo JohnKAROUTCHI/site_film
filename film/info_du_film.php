@@ -1,7 +1,15 @@
+<?php
+  ini_set('error_reporting', -1);
+  ini_set('display_errors', 'on'); // 'on' en développement, 'off' en production
+  ini_set('log_errors', 'on');
+  ini_set('errors_log', '/path/to/file.log');
+ ?>
 <h1>
   <?php
+    $id = $_GET['id'];
+
     $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-    $q = $bdd->query('SELECT title FROM movie WHERE id=1');
+    $q = $bdd->query("SELECT title FROM movie WHERE id=$id");
     $title = $q->fetch(PDO::FETCH_ASSOC);
     echo $title['title'];
   ?>
@@ -20,8 +28,10 @@
   </time><br>
   Distribution :<br>
                 <?php
+                  $id = $_GET['id'];
+
                   $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-                  $q = $bdd->query('SELECT firstname, lastname FROM person WHERE id!=1');
+                  $q = $bdd->query("SELECT firstname, lastname FROM person p INNER JOIN moviehasperson mp WHERE p.id=mp.idPerson AND idMovie=$id AND role=2");
 
                   while ($casting = $q->fetch(PDO::FETCH_ASSOC))
                   {
@@ -33,16 +43,26 @@
                  Guinness, Anthony Daniels, Kenny Baker, Peter Mayhew,
                  Peter Cushing... -->
                  <br>
-  Note (sur 5) <span>Presse : <meter value="45" min="0" max="50"></meter>
+
+                 <?php
+                 $id = $_GET['id'];
+
+                 $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
+                 $q = $bdd->query("SELECT rating, ratingSpect FROM movie WHERE id=$id");
+                 $rating = $q->fetch(PDO::FETCH_ASSOC);
+
+                 ?>
+  Note (sur 5) <span>Presse : <meter value="<?=$rating['rating'] * 10?>" min="0" max="50"></meter>
                 <?php
-                  $bdd = new PDO('mysql:host=localhost;dbname=site_film;charset=utf8', 'root', '');
-                  $q = $bdd->query('SELECT rating FROM movie WHERE id=1');
-                  $rating = $q->fetch(PDO::FETCH_ASSOC);
                   echo $rating['rating'];
                 ?>
                 <!-- 4,5 -->
                </span>
-               <span>Spectateur : <meter value="44" min="0" max="50"></meter> 4.4</span><br>
+               <span>Spectateur : <meter value="<?=$rating['ratingSpect'] * 10?>" min="0" max="50"></meter>
+                 <?php
+                   echo $rating['ratingSpect'];
+                 ?>
+               </span><br>
   <article id="synopsis">
     <h2>Synopsis : </h2>
                     <p>

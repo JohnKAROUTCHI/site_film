@@ -2,7 +2,7 @@
   <!-- autres pages -->
   <nav>
     <ul>
-      <li class="liste_header"><a href="/site_film/movie.php" class="lien_header">Fiche Film</a></li>
+      <li class="liste_header"><a href="/site_film/movie.php?id=<?= $_GET['id'] ?>" class="lien_header">Fiche Film</a></li>
       <li class="liste_header"><a href="/site_film/realisateur/george_lucas.php" class="lien_header">Réalisateur</a></li>
       <li class="liste_header">Acteurs
         <ul>
